@@ -147,6 +147,8 @@ const Style = () => (
     `}</style>
 );
 
+const API_BASE = process.env.REACT_APP_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:5000' : window.location.origin);
+
 function ContactUs() {
     const [data, setData] = useState({ name: "", email: "", message: "" });
     const [error, setError] = useState("");
@@ -185,7 +187,7 @@ function ContactUs() {
         }
 
         try {
-            await axios.post("http://localhost:5000/api/contact/", data);
+            await axios.post(`${API_BASE}/api/contact/`, data);
             setSuccess('Your message has been sent successfully!');
             setData(prevState => ({ ...prevState, message: '' }));
         } catch (error) {
