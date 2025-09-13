@@ -1,34 +1,17 @@
 /* Using a Google Font for a modern look */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
 
-/* Define color variables for the new theme */
+/* Define color variables for easy theme management */
 :root {
-    --primary-color: #0077ff;
-    --primary-hover-color: #005fcc;
-    --text-color-light: #ffffff;
-    --text-color-dark: #e0e0e0;
-    --border-color: rgba(255, 255, 255, 0.2);
-    --input-bg-color: rgba(255, 255, 255, 0.1);
-    --shadow-color: rgba(0, 0, 0, 0.15);
-}
-
-/* Keyframes for the animated gradient background */
-@keyframes gradientAnimation {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-/* Keyframes for the card fade-in animation */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    --primary-color: #3073D9;
+    --primary-hover-color: #285fb3;
+    --background-color: #f0f2f5;
+    --card-background: #ffffff;
+    --text-color: #333333;
+    --label-color: #555555;
+    --border-color: #d9d9d9;
+    --border-focus-color: #3073D9;
+    --shadow-color: rgba(0, 0, 0, 0.1);
 }
 
 .pageContainer {
@@ -37,58 +20,46 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    background: var(--background-color);
     padding: 20px;
     box-sizing: border-box;
-
-    /* The animated gradient background */
-    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-    background-size: 400% 400%;
-    animation: gradientAnimation 15s ease infinite;
 }
 
 .paymentBlock {
     width: 100%;
-    max-width: 460px;
+    max-width: 460px; /* Max width for larger screens */
+    background: var(--card-background);
+    box-shadow: 0 10px 25px var(--shadow-color);
+    border-radius: 20px;
     box-sizing: border-box;
     padding: 40px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
-
-    /* The Glassmorphism Effect */
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px); /* For Safari support */
-    border-radius: 20px;
-    border: 1px solid var(--border-color);
-    box-shadow: 0 8px 32px 0 var(--shadow-color);
-    
-    /* Apply fade-in animation */
-    animation: fadeIn 0.8s ease-out;
+    gap: 20px; /* Space between children elements */
 }
 
 .heading {
     font-weight: 700;
-    font-size: 32px;
+    font-size: 28px;
     text-align: center;
-    color: var(--text-color-light);
+    letter-spacing: 1px;
+    color: var(--text-color);
     margin: 0;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .text {
     font-weight: 400;
     font-size: 16px;
     text-align: center;
-    color: var(--text-color-dark);
-    margin: -10px 0 10px 0;
+    color: var(--label-color);
+    margin: 0 0 15px 0; /* Add some space below the text */
 }
 
 .form {
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 20px; /* Space between form groups */
 }
 
 .formGroup {
@@ -98,33 +69,30 @@
 
 .label {
     margin-bottom: 8px;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 500;
     font-size: 14px;
-    color: var(--text-color-dark);
+    color: var(--label-color);
 }
 
 .input {
     width: 100%;
     height: 48px;
-    background: var(--input-bg-color);
+    background: #f9f9f9;
     border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 0 15px;
     box-sizing: border-box;
     font-size: 16px;
-    color: var(--text-color-light);
-    transition: all 0.3s ease;
+    color: var(--text-color);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.input::placeholder {
-    color: rgba(255, 255, 255, 0.5);
-}
-
+/* Style for input fields on focus */
 .input:focus {
     outline: none;
-    border-color: var(--primary-color);
-    background: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 0 0 3px rgba(0, 119, 255, 0.3);
+    border-color: var(--border-focus-color);
+    box-shadow: 0 0 0 3px rgba(48, 115, 217, 0.2);
 }
 
 /* Removes arrows from number inputs for a cleaner look */
@@ -141,6 +109,7 @@
     width: 100%;
     height: 50px;
     background: var(--primary-color);
+    box-shadow: 0px 4px 15px rgba(48, 115, 217, 0.3);
     border-radius: 10px;
     color: white;
     font-family: 'Montserrat', sans-serif;
@@ -150,26 +119,19 @@
     text-transform: uppercase;
     border: none;
     cursor: pointer;
-    margin-top: 15px;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    margin-top: 15px; /* Space above the button */
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.proceedBtn:hover:not(:disabled) {
+.proceedBtn:hover {
     background: var(--primary-hover-color);
-    transform: translateY(-3px); /* Slightly larger lift on hover */
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-}
-
-.proceedBtn:active:not(:disabled) {
-    transform: translateY(-1px);
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px); /* Slight lift on hover */
 }
 
 /* Style for the disabled button */
 .proceedBtn.disabled {
-    background: rgba(255, 255, 255, 0.2);
+    background: #b0c4de; /* A muted blue */
     box-shadow: none;
     cursor: not-allowed;
-    color: rgba(255, 255, 255, 0.5);
+    transform: none;
 }
