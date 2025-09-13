@@ -4,7 +4,7 @@ import { Snackbar } from "@mui/material";
 // Import the CSS Module for styling
 import styles from './styles.module.css';
 
-const url = "http://localhost:5000";
+const API_BASE = process.env.REACT_APP_API_URL || "https://lifecare-pathology.onrender.com";
 
 function Payment() {
     const [amount, setAmount] = useState(0);
@@ -62,7 +62,7 @@ function Payment() {
                 return;
             }
 
-            const orderCreationResponse = await fetch(`${url}/api/checkout/create-order`, {
+            const orderCreationResponse = await fetch(`${API_BASE}/api/checkout/create-order`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -91,7 +91,7 @@ function Payment() {
                 return;
             }
 
-            const publicKey = data.key || "rzp_test_aqRrSZmCJ6Z4pC";
+            const publicKey = data.key || process.env.REACT_APP_RAZORPAY_KEY || "rzp_test_aqRrSZmCJ6Z4pC";
             if (!data.key) {
                 console.warn("Server did not return a Razorpay public key; falling back to embedded key (may cause 401).");
             }
@@ -102,11 +102,11 @@ function Payment() {
                 currency: data.currency,
                 name: "LifeCare",
                 description: "Appointment Payment",
-                image: url + "/logo.svg",
+                image: API_BASE + "/logo.svg",
                 order_id: data.id,
                 handler: async function (response) {
                     try {
-                        await fetch(url + '/api/checkout/verification/user', {
+                        await fetch(API_BASE + '/api/checkout/verification/user', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ status: true, oid: data.id })
@@ -115,7 +115,7 @@ function Payment() {
                         const userString = localStorage.getItem("user");
                         const token = userString ? JSON.parse(userString).token : null;
                         if (appointmentId && token) {
-                            await fetch(url + `/api/appointment/markPaid/${appointmentId}`, {
+                            await fetch(API_BASE + `/api/appointment/markPaid/${appointmentId}`, {
                                 method: 'PUT',
                                 headers: {
                                     'Content-Type': 'application/json',

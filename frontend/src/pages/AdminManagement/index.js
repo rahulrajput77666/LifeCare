@@ -28,8 +28,8 @@ function AdminManagement() {
     const [reportFiles, setReportFiles] = useState({}); // { appointmentId: File }
     const [uploadingReportId, setUploadingReportId] = useState(null);
 
-    // API base used by this module
-    const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+    // API base used by this module (prefer env var; fallback to deployed backend)
+    const API_BASE = process.env.REACT_APP_API_URL || 'https://lifecare-pathology.onrender.com';
 
     // --- DATA FETCH ---
     const fetchData = useCallback(async (token) => {
@@ -109,7 +109,7 @@ function AdminManagement() {
     const handleLoginSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5000/api/auth/Login', loginData);
+            const response = await axios.post(`${API_BASE}/api/auth/Login`, loginData);
             // backend returns { data: <token>, user: { ... } }
             const token = response.data?.data;
             const isAdmin = response.data?.user?.isAdmin || response.data?.isAdmin || false;
@@ -151,10 +151,10 @@ function AdminManagement() {
         try {
             const config = { headers: { Authorization: `Bearer ${adminUser.token}` } };
             if (editingTestId) {
-                await axios.put(`http://localhost:5000/api/tests/${editingTestId}`, newTest, config);
+                await axios.put(`${API_BASE}/api/tests/${editingTestId}`, newTest, config);
                 showMessage('success', 'Test updated successfully!');
             } else {
-                await axios.post('http://localhost:5000/api/tests/', newTest, config);
+                await axios.post(`${API_BASE}/api/tests/`, newTest, config);
                 showMessage('success', 'Individual test added!');
             }
             setNewTest({ name: '', price: '' });
@@ -169,7 +169,7 @@ function AdminManagement() {
         if (window.confirm('Are you sure? This will also remove the test from any profiles.')) {
             try {
                 const config = { headers: { Authorization: `Bearer ${adminUser.token}` } };
-                await axios.delete(`http://localhost:5000/api/tests/${id}`, config);
+                await axios.delete(`${API_BASE}/api/tests/${id}`, config);
                 showMessage('success', 'Test deleted.');
                 fetchData(adminUser.token);
             } catch (error) {
@@ -199,10 +199,10 @@ function AdminManagement() {
         const config = { headers: { Authorization: `Bearer ${adminUser.token}` } };
         try {
             if (id) {
-                await axios.put(`http://localhost:5000/api/profiles/${id}`, data, config);
+                await axios.put(`${API_BASE}/api/profiles/${id}`, data, config);
                 showMessage('success', 'Profile updated successfully!');
             } else {
-                await axios.post('http://localhost:5000/api/profiles/', data, config);
+                await axios.post(`${API_BASE}/api/profiles/`, data, config);
                 showMessage('success', 'Profile added successfully!');
             }
             cancelProfileEdit();
@@ -246,7 +246,7 @@ function AdminManagement() {
         if (window.confirm('Are you sure?')) {
             try {
                 const config = { headers: { Authorization: `Bearer ${adminUser.token}` } };
-                await axios.delete(`http://localhost:5000/api/profiles/${id}`, config);
+                await axios.delete(`${API_BASE}/api/profiles/${id}`, config);
                 showMessage('success', 'Profile deleted.');
                 fetchData(adminUser.token);
             } catch (error) {
@@ -272,7 +272,7 @@ function AdminManagement() {
     const handleUpdateAppointmentStatus = async (id, status) => {
         try {
             const config = { headers: { Authorization: `Bearer ${adminUser.token}` } };
-            await axios.put(`http://localhost:5000/api/appointment/updateStatus/${id}`, { status }, config);
+            await axios.put(`${API_BASE}/api/appointment/updateStatus/${id}`, { status }, config);
             showMessage('success', 'Status updated!');
             fetchData(adminUser.token);
         } catch (error) {
@@ -282,7 +282,7 @@ function AdminManagement() {
      const handleUpdateTested = async (id, tested) => {
         try {
             const config = { headers: { Authorization: `Bearer ${adminUser.token}` } };
-            await axios.put(`http://localhost:5000/api/appointment/updateTested/${id}`, { tested }, config);
+            await axios.put(`${API_BASE}/api/appointment/updateTested/${id}`, { tested }, config);
             showMessage('success', 'Tested status updated!');
             fetchData(adminUser.token);
         } catch (error) {
@@ -563,7 +563,7 @@ return (
                                                                 const newStatus = e.target.value === 'Paid';
                                                                 try {
                                                                     const config = { headers: { Authorization: `Bearer ${adminUser.token}` } };
-                                                                    await axios.put(`http://localhost:5000/api/appointment/updatePayment/${app._id}`, { isPaymentDone: newStatus }, config);
+                                                                    await axios.put(`${API_BASE}/api/appointment/updatePayment/${app._id}`, { isPaymentDone: newStatus }, config);
                                                                     showMessage('success', 'Payment status updated!');
                                                                     fetchData(adminUser.token);
                                                                 } catch {

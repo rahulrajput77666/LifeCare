@@ -5,6 +5,9 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import axios from "axios";
 
+// add API base (prefer env var, use localhost for development, otherwise same origin)
+const API_BASE = process.env.REACT_APP_API_URL || (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : window.location.origin);
+
 function BookAppointment() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -55,8 +58,8 @@ function BookAppointment() {
     async function fetchData() {
       try {
         const [testsRes, profilesRes] = await Promise.all([
-          axios.get("http://localhost:5000/api/tests/"),
-          axios.get("http://localhost:5000/api/profiles/"),
+          axios.get(`${API_BASE}/api/tests/`),
+          axios.get(`${API_BASE}/api/profiles/`),
         ]);
         setTests(testsRes.data || []);
         setProfiles(profilesRes.data || []);
@@ -151,7 +154,7 @@ function BookAppointment() {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/appointment/bookAppointment",
+        `${API_BASE}/api/appointment/bookAppointment`,
         appointmentData,
         config
       );

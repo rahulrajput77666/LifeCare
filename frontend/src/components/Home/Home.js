@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./styles.module.css";
 import axios from "axios";
+const API_BASE = process.env.REACT_APP_API_URL || (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : window.location.origin);
 
 // A sub-component to render star icons based on a rating.
 const StarRating = ({ rating }) => {
@@ -52,7 +53,7 @@ function Home() {
         const fetchInitialFeedbacks = async () => {
             try {
                 setFeedbackLoading(true);
-                const { data } = await axios.get("http://localhost:5000/api/feedback/");
+                const { data } = await axios.get(`${API_BASE}/api/feedback/`);
                 if (data.stats) setReviewStats(data.stats);
                 if (data.reviews) setReviews(data.reviews);
                 setFeedbackError("");
@@ -75,7 +76,7 @@ function Home() {
     const handleShowAllFeedback = async () => {
         setFeedbackLoading(true);
         try {
-            const { data } = await axios.get("http://localhost:5000/api/feedback/all");
+            const { data } = await axios.get(`${API_BASE}/api/feedback/all`);
             setReviews(data);
             setIsFeedbackExpanded(true); // This will hide the "See All" button
             setFeedbackError("");
