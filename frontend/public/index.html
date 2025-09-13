@@ -2,14 +2,17 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <!-- Use the public URL placeholder so the deployed app finds the favicon -->
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <!-- Use a versioned favicon to force browsers/CDN to fetch the updated file -->
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico?v=2" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta
       name="description"
       content="Web site created using create-react-app"
     />
+    <!-- Social / PWA metadata -->
+    <meta property="og:title" content="LifeCare Pathology" />
+    <meta name="apple-mobile-web-app-title" content="LifeCare Pathology" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -28,8 +31,27 @@
     <!-- PWA manifest -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <meta name="application-name" content="LifeCare Pathology" />
-
     <title>LifeCare Pathology</title>
+
+    <!-- Unregister service workers and clear caches to avoid serving stale favicon/index -->
+    <script>
+      (function () {
+        try {
+          if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(function (regs) {
+              regs.forEach(function (r) { r.unregister(); });
+            }).catch(function () { /* ignore */ });
+          }
+          if (window.caches && caches.keys) {
+            caches.keys().then(function(keys){
+              keys.forEach(function(key){ caches.delete(key); });
+            }).catch(function(){});
+          }
+        } catch (e) {
+          /* noop */
+        }
+      })();
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
@@ -46,15 +68,6 @@
     -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-      crossorigin="anonymous"
-    ></script>
-  </body>
-</html>
-      crossorigin="anonymous"
-    ></script>
-  </body>
-</html>
       integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
       crossorigin="anonymous"
     ></script>

@@ -8,8 +8,8 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
     rel="stylesheet">
-  <!-- favicon -->
-  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <!-- favicon (versioned to bust caches) -->
+  <link rel="icon" href="%PUBLIC_URL%/favicon.ico?v=2" />
   <style>
     * {
       margin: 0;
@@ -17,6 +17,24 @@
     }
   </style>
   <title>LifeCare Pathology</title>
+
+  <!-- Unregister service workers to avoid cached assets -->
+  <script>
+    (function () {
+      try {
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.getRegistrations().then(function (regs) {
+            regs.forEach(function (r) { r.unregister(); });
+          }).catch(function () { /* ignore */ });
+        }
+        if (window.caches && caches.keys) {
+          caches.keys().then(function(keys){
+            keys.forEach(function(key){ caches.delete(key); });
+          }).catch(function(){});
+        }
+      } catch (e) { /* noop */ }
+    })();
+  </script>
 </head>
 
 <body>
