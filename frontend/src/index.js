@@ -19,6 +19,9 @@ import ExploreTests from './pages/ExploreTests/';
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
 import PasswordReset from './pages/PasswordReset/PasswordReset';
 
+// Ensure correct tab title at runtime (helps if deployed HTML was cached)
+document.title = document.title && document.title !== 'React App' ? document.title : 'LifeCare Pathology';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Router>
