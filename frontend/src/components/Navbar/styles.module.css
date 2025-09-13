@@ -1,0 +1,177 @@
+/* --- Base Styles --- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+/* NOTE: Since the navbar is fixed, you might need to add 
+  padding-top: 90px; to your main app container or body 
+  to prevent content from being hidden underneath it.
+*/
+
+.navbar {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: saturate(180%) blur(15px);
+    -webkit-backdrop-filter: saturate(180%) blur(15px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    font-family: 'Poppins', sans-serif;
+    transition: background-color 0.3s ease;
+}
+
+.navbarContainer {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 1600px; /* Keeps content from spreading too thin on large monitors */
+    margin: 0 auto;
+    padding: 0 50px;
+    box-sizing: border-box;
+    height: 90px;
+}
+
+/* --- Logo --- */
+.logoLink {
+    display: flex;
+    align-items: center;
+    margin-right: auto; /* Pushes all other items to the right */
+    transition: transform 0.3s ease;
+}
+.logoLink:hover {
+    transform: scale(1.05);
+}
+
+.logo {
+    height: 75px;
+    width: auto;
+}
+
+/* --- Navigation Links --- */
+.navMenu {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.navLink {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #34495e;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 500;
+    padding: 10px 15px;
+    border-radius: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.navLink:hover, .dropdown button:hover {
+    background-color: #e9ecef;
+    color: #0056b3;
+}
+
+.activeLink {
+    background-color: #e7f5ff;
+    color: #0056b3;
+    font-weight: 600;
+}
+
+/* --- Dropdown Menu --- */
+.dropdown { 
+    position: relative; 
+}
+
+.dropdownContent {
+    display: none;
+    position: absolute;
+    background-color: #ffffff;
+    min-width: 220px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    border-radius: 12px;
+    padding: 10px;
+    margin-top: 15px;
+    border: 1px solid #f1f3f5;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.dropdown:hover .dropdownContent {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.dropdownContent a {
+    color: #34495e;
+    padding: 12px 20px;
+    text-decoration: none;
+    display: block;
+    font-size: 0.95rem;
+    border-radius: 8px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.dropdownContent a:hover {
+    background-color: #f8f9fa;
+    color: #0056b3;
+}
+
+/* --- Action Buttons & Profile Icon --- */
+.navActions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-left: 30px;
+}
+
+.authButton {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    background: #007bff;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
+    white-space: nowrap; /* Prevents text from breaking into two lines */
+}
+
+.authButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 123, 255, 0.3);
+    background: #0056b3;
+}
+
+.profileLink {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.profileImage {
+    height: 48px;
+    width: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #007bff;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.profileLink:hover .profileImage {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+}
+

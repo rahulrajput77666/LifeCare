@@ -1,0 +1,537 @@
+/* =========================================================
+   Modern, Accessible & Readable UI for Admin Management
+   - Keep existing React classNames (no component changes needed)
+   - Larger font sizing, clear spacing, polished visuals
+   ========================================================= */
+
+/* Import fonts & icons */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css');
+
+:root{
+  --bg: #f6f8fa;
+  --card: rgba(255,255,255,0.85);
+  --glass: rgba(255,255,255,0.55);
+  --muted: #6c757d;
+  --text: #17202a;
+  --primary: #6f4ceb;
+  --primary-600: #5b3fd2;
+  --danger: #e74c3c;
+  --success: #2ecc71;
+  --border: #e9edf2;
+  --radius: 14px;
+  --shadow-1: 0 8px 24px rgba(20,20,30,0.06);
+  --shadow-2: 0 12px 40px rgba(20,20,30,0.08);
+  --focus-ring: 0 0 0 4px rgba(111,76,235,0.12);
+  --base-font: 17px; /* increased base font size */
+}
+
+/* ---------- Base ---------- */
+* { box-sizing: border-box; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+html,body,#root { height: 100%; }
+body {
+  margin: 0;
+  font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: var(--bg);
+  color: var(--text);
+  font-size: var(--base-font);
+  line-height: 1.45;
+}
+
+/* ---------- Page Loader ---------- */
+.pageLoader {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height: 72vh;
+  font-weight:600;
+  color: var(--primary-600);
+  font-size: 1.4rem;
+}
+
+/* ---------- Header (keeps the header in your component) ---------- */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap: 16px;
+  padding: 18px 28px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.85));
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.03);
+}
+
+.header h1 {
+  font-size: 1.8rem;
+  margin: 0;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.logoutButton {
+  background: linear-gradient(135deg, var(--primary), var(--primary-600));
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 0.98rem;
+  box-shadow: 0 8px 22px rgba(111,76,235,0.18);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.logoutButton:hover { transform: translateY(-2px); box-shadow: var(--shadow-2); }
+.logoutButton:focus { outline: none; box-shadow: var(--focus-ring); }
+
+/* ---------- Outer container ---------- */
+.dashboardContainer {
+  max-width: 1400px;
+  margin: 26px auto;
+  padding: 0 20px 48px;
+}
+
+/* ---------- Tabs nav (keeps using tabNav from your component) ---------- */
+.tabNav {
+  display:flex;
+  gap:12px;
+  overflow-x:auto;
+  padding-bottom:6px;
+  margin-bottom: 18px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tabNav button {
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding: 12px 18px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 1.02rem;
+  cursor: pointer;
+  transition: all .18s ease;
+  white-space: nowrap;
+}
+.tabNav button i { font-size: 1.05rem; opacity: .92; }
+
+/* active tab */
+.tabNav button.active {
+  color: white;
+  background: linear-gradient(90deg,var(--primary), var(--primary-600));
+  box-shadow: 0 10px 30px rgba(111,76,235,0.16);
+  border-color: rgba(255,255,255,0.08);
+}
+.tabNav button:hover { transform: translateY(-2px); }
+
+/* small underline animation fallback for non-pill look */
+.tabNav button::after{
+  content: '';
+  position: absolute;
+  height: 3px;
+  left: 0; right: 0; bottom: -6px;
+  border-radius: 3px;
+  background: linear-gradient(90deg,var(--primary), var(--primary-600));
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform .2s ease;
+  opacity: 0.0;
+}
+.tabNav button.active::after { transform: scaleX(1); opacity: 0.85; }
+
+/* ---------- Tab content holder ---------- */
+.tabContent {
+  padding-top: 8px;
+  animation: cardFade 220ms ease;
+}
+
+/* ---------- Grid layout for cards ---------- */
+.contentGrid {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 1100px) {
+  .contentGrid { grid-template-columns: 1fr 1fr; }
+}
+
+/* make fullWidthCard span both columns */
+.fullWidthCard { grid-column: 1 / -1; }
+
+/* ---------- Card style (glass-like + shadow) ---------- */
+.card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.95), var(--card));
+  border-radius: var(--radius);
+  padding: 26px;
+  box-shadow: var(--shadow-1);
+  border: 1px solid rgba(18,24,31,0.03);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.card:hover { transform: translateY(-6px); box-shadow: var(--shadow-2); }
+
+.card h2 {
+  margin: 0 0 18px 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text);
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ---------- Forms ---------- */
+.form {
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+
+.form label {
+  font-weight:600;
+  font-size: 0.98rem;
+  color: var(--text);
+}
+
+/* inputs & textarea */
+.form input,
+.form textarea,
+.form select {
+  width:100%;
+  padding: 13px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  font-size: 1rem;
+  color: var(--text);
+  background: #fff;
+  transition: box-shadow .15s ease, border-color .15s ease;
+  resize: vertical;
+}
+.form textarea { min-height: 110px; line-height: 1.5; }
+
+.form input:focus,
+.form textarea:focus,
+.form select:focus {
+  outline: none;
+  border-color: var(--primary-600);
+  box-shadow: var(--focus-ring);
+}
+
+/* big primary button */
+.formButton {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  background: linear-gradient(90deg,var(--primary), var(--primary-600));
+  color: #fff;
+  padding: 13px 18px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1.02rem;
+  cursor: pointer;
+  transition: transform .16s ease, box-shadow .16s ease;
+}
+.formButton:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(111,76,235,0.14); }
+.formButton:focus { outline:none; box-shadow: var(--focus-ring); }
+
+/* cancel button smaller variant */
+.cancelButton {
+  background: #9aa6b2;
+  color: white;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-weight:700;
+  cursor:pointer;
+}
+.cancelButton:hover { background:#81929a; }
+
+/* ---------- Checkbox grid for profiles ---------- */
+.checkboxGrid {
+  display:grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
+  max-height: 260px;
+  overflow-y: auto;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(250,250,252,0.95));
+}
+
+/* keep checkbox natural but bigger via scale & accent-color which is simpler and accessible */
+.checkboxItem {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-size: 1rem;
+}
+.checkboxItem input[type="checkbox"]{
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: var(--primary-600);
+}
+
+/* ---------- Lists & profile items ---------- */
+.list, .profileList {
+  list-style:none;
+  margin:0;
+  padding:0;
+  max-height: 380px;
+  overflow-y: auto;
+}
+
+.list li, .profileItem {
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap: 12px;
+  padding: 14px 12px;
+  border-bottom: 1px solid var(--border);
+  align-items: center;
+  background: linear-gradient(180deg, rgba(255,255,255,0.999), rgba(255,255,255,0.995));
+}
+.list li:hover, .profileItem:hover { background: rgba(111,76,235,0.03); }
+
+.profileInfo { display:flex; flex-direction:column; gap:8px; }
+.profileInfo strong { font-size: 1.03rem; font-weight: 700; color:var(--text); }
+.profileTestList { display:flex; gap:8px; flex-wrap:wrap; margin:0; padding:0; list-style:none; }
+.profileTestList li {
+  background:#f2f6ff;
+  color: var(--primary-600);
+  padding:4px 8px;
+  border-radius: 8px;
+  font-size: 0.92rem;
+}
+
+/* action buttons on list items */
+.profileActions { display:flex; gap:10px; align-items:center; }
+.editButton, .deleteButton {
+  padding: 9px 12px;
+  border-radius: 10px;
+  border: none;
+  font-weight:700;
+  cursor:pointer;
+  font-size: 0.95rem;
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.editButton { background: #118df0; color: #fff; box-shadow: 0 6px 18px rgba(17,141,240,0.12); }
+.editButton:hover { transform: translateY(-3px); }
+.deleteButton { background: #ff6b6b; color: #fff; box-shadow: 0 6px 18px rgba(231,76,60,0.12); }
+.deleteButton:hover { transform: translateY(-3px); }
+
+/* ---------- Table styles (appointments) ---------- */
+.tableContainer { overflow-x:auto; border-radius: 12px; border: 1px solid var(--border); background: white; padding: 6px; }
+table { width:100%; border-collapse: collapse; min-width: 720px; font-size: 1.01rem; }
+th, td {
+  padding: 14px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+th {
+  position: sticky;
+  top: 0;
+  background: linear-gradient(180deg,#fff,#fafbfd);
+  font-weight:700;
+  z-index:2;
+}
+tr:nth-child(even) td { background: #fafbff; }
+
+/* Payment status badge (keeps original usage) */
+.statusBadge {
+  padding:6px 12px;
+  border-radius: 999px;
+  font-weight:700;
+  font-size: 0.92rem;
+}
+.paid { background: #e6f8ef; color: #12803a; }
+.unpaid { background: #fff0f2; color: #9b1c2b; }
+
+/* select in table default appearance (will be restyled lower for pill look) */
+table select {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: #fff;
+  cursor: pointer;
+}
+
+/* ---------- Messages (success/error) ---------- */
+.message {
+  max-width: 1200px;
+  margin: 16px auto;
+  padding: 14px 18px;
+  border-radius: 12px;
+  font-weight:700;
+  font-size: 1rem;
+}
+.success { background: #e6fbeb; color: #10703a; border: 1px solid rgba(16,112,58,0.06); }
+.error { background: #fff2f2; color: #8b1620; border: 1px solid rgba(139,22,32,0.06); }
+
+/* ---------- Login styles (keeps names used in component) ---------- */
+.loginPage {
+  min-height: calc(100vh - 24px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding: 28px;
+}
+.loginFormContainer {
+  background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(250,250,252,0.98));
+  width: 100%;
+  max-width: 460px;
+  padding: 36px;
+  border-radius: 16px;
+  box-shadow: 0 18px 40px rgba(12,16,25,0.12);
+  text-align:center;
+}
+.loginFormContainer h2 { font-size:1.6rem; margin-bottom: 16px; }
+.loginFormContainer input, .loginFormContainer button {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  font-size: 1rem;
+  margin-bottom: 12px;
+}
+.loginFormContainer button {
+  background: linear-gradient(90deg,var(--primary),var(--primary-600));
+  color:white;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+}
+.loginFormContainer button:hover { transform: translateY(-2px); box-shadow: var(--shadow-1); }
+
+/* ---------- Responsive tweaks ---------- */
+@media (max-width: 880px) {
+  .header { padding: 14px 16px; }
+  .dashboardContainer { padding: 0 14px 34px; }
+  .card { padding: 18px; }
+  .tabNav button { padding: 10px 12px; font-size: .98rem; }
+  .formButton, .logoutButton { padding: 10px 12px; font-size: .98rem; }
+}
+
+/* ---------- Animation keyframes ---------- */
+@keyframes cardFade {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* =========================
+   Appointment: pill-like select + subtle row tint
+   - Very light tints only (no dark colors)
+   - Uses :has() where available; fallback is neutral pill
+   ========================= */
+
+/* Make the native <select> look like a pill/button with chevron */
+.tableContainer select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 14px;
+  font-weight: 700;
+  font-size: 0.98rem;
+  border-radius: 12px;
+  border: 1px solid rgba(20,20,30,0.06);
+  background: linear-gradient(180deg, #ffffff, #fcfdff);
+  color: #17202a;
+  cursor: pointer;
+  min-width: 150px;
+  box-shadow: 0 8px 20px rgba(8,10,20,0.04);
+  transition: background .18s ease, color .18s ease, box-shadow .18s ease, transform .12s ease;
+  background-image: linear-gradient(transparent, transparent), url("data:image/svg+xml;charset=UTF-8,%3Csvg width='10' height='6' viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23424a4f'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 10px 6px;
+  padding-right: 42px; /* space for chevron */
+}
+
+/* Hover & focus */
+.tableContainer select:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(8,10,20,0.06); }
+.tableContainer select:focus { outline: none; box-shadow: 0 0 0 6px rgba(111,76,235,0.06); }
+
+/* Ensure options use bold weight in native dropdown */
+.tableContainer select option { font-weight: 700; }
+
+/* ---------- Per-status styling using :has() (modern browsers) ---------- */
+
+/* Pending: very light warm/yellow */
+.tableContainer select:has(option:checked[value="Pending"]),
+.tableContainer select:has(option:checked[value="pending"]) {
+  background: linear-gradient(180deg, #fffdf8, #fffaf1);
+  color: #6f5a00;
+  border-color: rgba(111,90,0,0.06);
+}
+
+/* Confirmed: very light green */
+.tableContainer select:has(option:checked[value="Confirmed"]),
+.tableContainer select:has(option:checked[value="confirmed"]) {
+  background: linear-gradient(180deg, #f7fff8, #f2fff4);
+  color: #1b7a2f;
+  border-color: rgba(27,122,47,0.06);
+}
+
+/* Cancelled: very light red/pink */
+.tableContainer select:has(option:checked[value="Cancelled"]),
+.tableContainer select:has(option:checked[value="cancelled"]) {
+  background: linear-gradient(180deg, #fff7f7, #fff2f2);
+  color: #8a1b1b;
+  border-color: rgba(138,27,27,0.05);
+}
+
+/* ---------- Row tinting using :has() — subtle and light ---------- */
+
+/* Pending row tint (very subtle) */
+.tableContainer tbody tr:has(td select option:checked[value="Pending"]),
+.tableContainer tbody tr:has(td select option:checked[value="pending"]) td {
+  background: linear-gradient(180deg, rgba(255, 250, 236, 0.6), rgba(255,255,255,0.55));
+}
+
+/* Confirmed row tint */
+.tableContainer tbody tr:has(td select option:checked[value="Confirmed"]),
+.tableContainer tbody tr:has(td select option:checked[value="confirmed"]) td {
+  background: linear-gradient(180deg, rgba(238, 255, 239, 0.6), rgba(255,255,255,0.55));
+}
+
+/* Cancelled row tint */
+.tableContainer tbody tr:has(td select option:checked[value="Cancelled"]),
+.tableContainer tbody tr:has(td select option:checked[value="cancelled"]) td {
+  background: linear-gradient(180deg, rgba(255, 243, 243, 0.6), rgba(255,255,255,0.55));
+}
+
+/* Keep the header visually above tints */
+.tableContainer thead th {
+  background: linear-gradient(180deg,#fff,#fafbfd);
+  position: sticky;
+  top: 0;
+  z-index: 3;
+}
+
+/* ---------- Fallback for browsers without :has() ----------
+   The select still looks like a neutral pill; no row tint applied.
+   If you want full cross-browser tints, add a small `data-status` or class
+   to each <tr> or <select> from React (I can provide that single-line change).
+   ---------- */
+
+/* ---------- Responsive tweaks ---------- */
+@media (max-width: 600px) {
+  .tableContainer select { min-width: 120px; font-size: 0.95rem; padding: 10px 12px 10px 12px; padding-right: 36px; }
+  .tableContainer tbody tr td { padding: 12px 10px; }
+}
+
+/* ---------- Accessibility: prefers-contrast ---------- */
+@media (prefers-contrast: more) {
+  .tableContainer select { box-shadow: 0 10px 28px rgba(8,10,20,0.12); }
+}
+
+/* ---------- End of file ---------- */

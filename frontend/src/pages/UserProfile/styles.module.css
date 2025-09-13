@@ -1,0 +1,353 @@
+/* --- Main Container & Layout --- */
+.container {
+    max-width: 1500px; /* Increased from 1400px to give more space */
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #4a5568;
+    background-color: #f7fafc;
+}
+
+.header {
+    margin-bottom: 2.5rem;
+    text-align: center;
+    color: #1a2a4c;
+}
+
+.header h1 {
+    font-size: 2.8rem;
+    font-weight: 800;
+}
+
+.profileGrid {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 2.5rem;
+}
+
+@media (max-width: 992px) {
+    .profileGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* --- Reusable Card & Card Header --- */
+.card {
+    background-color: #ffffff;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    padding: 2rem;
+    height: fit-content;
+}
+
+.cardHeader {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    color: #2d3748;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 1rem;
+}
+
+.cardHeader h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+/* --- User Info & Profile Picture Styles --- */
+.profilePictureContainer {
+    position: relative;
+    width: 128px;
+    height: 128px;
+    margin: 0 auto 1.5rem auto;
+    border-radius: 50%;
+}
+
+.profilePicture {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #ffffff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.uploadOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    cursor: pointer;
+}
+
+.profilePictureContainer:hover .uploadOverlay {
+    opacity: 1;
+}
+
+.removeImageButton {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background-color: rgba(45, 55, 72, 0.7);
+    color: white;
+    border: 2px solid white;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.2s ease;
+    font-size: 16px;
+    line-height: 1;
+    z-index: 10;
+}
+
+.profilePictureContainer:hover .removeImageButton {
+    opacity: 1;
+}
+
+.removeImageButton:hover {
+    background-color: #c53030;
+    transform: scale(1.1);
+}
+
+.userInfo {
+    text-align: center;
+}
+
+.userInfo h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin: 0 0 0.25rem 0;
+}
+
+.userInfo p {
+    color: #718096;
+    margin: 0 0 1.5rem 0;
+}
+
+.editButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    border: none;
+    background-color: #edf2f7;
+    color: #4a5568;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.editButton:hover {
+    background-color: #e2e8f0;
+}
+
+/* --- Edit Form Styles --- */
+.editForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.editForm input {
+    padding: 0.75rem;
+    border: 1px solid #cbd5e0;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+.formActions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.saveButton, .cancelButton {
+    flex-grow: 1;
+    padding: 0.6rem;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.saveButton {
+    background-color: #4299e1;
+    color: white;
+}
+.saveButton:hover {
+    background-color: #3182ce;
+}
+
+.cancelButton {
+    background-color: #e2e8f0;
+    color: #4a5568;
+}
+.cancelButton:hover {
+    background-color: #cbd5e0;
+}
+
+/* --- APPOINTMENT LIST STYLES --- */
+.appointmentsListContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.appointmentsHeader {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 2.8fr 1fr 1fr 1fr 1.2fr; /* Rebalanced for report button */
+    gap: 0.75rem; /* Reduced gap */
+    padding: 1.25rem 1.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    background: linear-gradient(45deg, #4a5568, #2d3748);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.8rem;
+    align-items: center;
+}
+
+.appointmentsHeader > span {
+    min-width: 0;
+}
+
+@media (max-width: 1200px) {
+    .appointmentsHeader {
+        display: none;
+    }
+}
+
+.appointmentCardsWrapper {
+    /* No specific styles needed here */
+}
+
+.appointmentCard {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    padding: 1.25rem 1.5rem;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 2.8fr 1fr 1fr 1fr 1.2fr; /* Rebalanced for report button */
+    gap: 0.75rem; /* Reduced gap */
+    align-items: center;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    margin-bottom: 1rem;
+}
+
+.appointmentCard:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 1200px) {
+    .appointmentCard {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 1rem;
+    }
+}
+
+.appointmentData {
+    font-size: 0.95rem;
+    min-width: 0; 
+}
+
+@media (max-width: 1200px) {
+    .appointmentData {
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #edf2f7;
+    }
+    .appointmentData:last-child {
+        border-bottom: none;
+    }
+    .appointmentData::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: #718096;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        display: block;
+        margin-bottom: 0.25rem;
+    }
+}
+
+.serviceList {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+.serviceList li {
+    margin-bottom: 4px;
+}
+
+/* --- Status & Download Button --- */
+.status {
+    padding: 0.3rem 0.8rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #fff;
+    text-transform: uppercase;
+    text-align: center;
+    display: inline-block;
+}
+.pending { background: linear-gradient(45deg, #fdc830, #f37335); }
+.done { background: linear-gradient(45deg, #1d976c, #93f9b9); }
+.confirmed { background: linear-gradient(45deg, #1d976c, #93f9b9); }
+.cancelled { background: linear-gradient(45deg, #d31027, #ea384d); }
+
+.downloadButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    color: white;
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+}
+.downloadButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 14px rgba(0, 123, 255, 0.3);
+}
+
+/* --- Loading & Error States --- */
+.error {
+    color: #c53030;
+    font-weight: 500;
+    text-align: center;
+    background-color: #fed7d7;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid #f56565;
+}
+

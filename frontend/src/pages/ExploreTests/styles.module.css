@@ -1,0 +1,261 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+.pageContainer {
+  width: 100%;
+  min-height: 100vh;
+  background: #f9fafc;
+  font-family: 'Poppins', sans-serif;
+  padding: 120px 20px 60px;
+  box-sizing: border-box;
+  color: #333;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.header h1 {
+  font-size: clamp(2.2rem, 4vw, 3rem);
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 12px;
+}
+
+.header p {
+  font-size: 1.15rem;
+  color: #666;
+  max-width: 650px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Shared Button Base */
+button,
+a[class*="Button"] {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+/* Primary button */
+.formButton {
+  background: #6c63ff;
+  color: #fff;
+  padding: 12px 26px;
+  border-radius: 50px;
+  font-size: 1rem;
+  box-shadow: 0 4px 12px rgba(108, 99, 255, 0.3);
+}
+.formButton:hover {
+  background: #5848d9;
+  transform: translateY(-2px);
+}
+
+/* Secondary button */
+.cancelButton {
+  background: #e2e6ea;
+  color: #444;
+  padding: 12px 26px;
+  border-radius: 50px;
+  font-size: 1rem;
+}
+.cancelButton:hover {
+  background: #d1d5db;
+  transform: translateY(-2px);
+}
+
+/* Book button */
+.bookButton {
+  background: #00c897;
+  color: #fff;
+  padding: 10px 22px;
+  border-radius: 50px;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 10px rgba(0, 200, 151, 0.25);
+}
+.bookButton:hover {
+  background: #00a67a;
+  transform: translateY(-2px);
+}
+
+/* Small book button */
+.bookButtonSmall {
+  background: #6c63ff;
+  color: white;
+  padding: 8px 18px;
+  border-radius: 40px;
+  font-size: 0.9rem;
+  text-decoration: none;
+  box-shadow: 0 3px 8px rgba(108, 99, 255, 0.25);
+}
+.bookButtonSmall:hover {
+  background: #5848d9;
+  transform: translateY(-2px);
+}
+
+/* Edit button */
+.editButton {
+  background: #f1f3f5;
+  color: #333;
+  padding: 8px 18px;
+  border-radius: 40px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+}
+.editButton:hover {
+  background: #e2e6ea;
+  transform: translateY(-2px);
+}
+
+/* Sections */
+.sectionTitle {
+  font-size: 1.9rem;
+  font-weight: 600;
+  margin-bottom: 25px;
+  color: #333;
+  text-align: center;
+}
+
+/* Profile grid as matrix */
+.profileGrid {
+  display: grid;
+  gap: 25px;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  align-items: stretch;
+}
+
+/* Profile cards */
+.profileCard {
+  background: #fff;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+}
+.profileCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
+}
+
+/* Card header (Profile name + total price only) */
+.cardHeader {
+  background: #6c63ff;
+  color: #fff;
+  padding: 18px 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.cardHeader h3 {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+.cardHeader .priceTag {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Card body (description + tests) */
+.cardBody {
+  padding: 20px 22px;
+  flex: 1;
+}
+.cardDescription {
+  margin: 0 0 16px;
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.5;
+}
+.includesTitle {
+  font-weight: 600;
+  margin-top: 12px;
+  margin-bottom: 8px;
+  font-size: 1rem;
+  color: #333;
+}
+.testList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.testList li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px dashed #eee;
+  font-size: 0.95rem;
+}
+.testList li:last-child {
+  border-bottom: none;
+}
+.testList span:first-child {
+  color: #444;
+}
+.testList span:last-child {
+  color: #555;
+  font-weight: 600;
+}
+
+/* Card footer (savings + book button) */
+.cardFooter {
+  padding: 16px 22px;
+  background: #f8f9fb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #eee;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* Test table */
+.tableContainer {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  overflow-x: auto;
+}
+.testTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1rem;
+}
+.testTable th,
+.testTable td {
+  text-align: left;
+  padding: 14px 12px;
+  border-bottom: 1px solid #eee;
+}
+.testTable th {
+  background: #f1f3f9;
+  font-weight: 600;
+  color: #333;
+}
+.testTable tr:hover {
+  background: #f9f9ff;
+}
+
+/* Messages */
+.pageMessage {
+  text-align: center;
+  font-size: 1.05rem;
+  color: #555;
+}
+.errorMessage {
+  color: #dc3545;
+  font-weight: 600;
+}

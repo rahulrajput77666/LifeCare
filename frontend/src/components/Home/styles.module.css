@@ -1,0 +1,379 @@
+/* --- Core Styles for Home Page --- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap');
+
+.home {
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+    background-color: #f8f9fa; 
+}
+
+/* --- Hero Section --- */
+.hero {
+    position: relative;
+    height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    background: url('https://plus.unsplash.com/premium_photo-1661668905055-013c61a005e7?w=1200&auto=format&fit=crop&q=60') no-repeat center center/cover;
+}
+
+.heroOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(20, 30, 48, 0.7), rgba(36, 59, 85, 0.5));
+}
+
+.heroContent {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    padding: 20px;
+}
+
+.heroTitle {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 5vw, 4.8rem);
+    font-weight: 700;
+    margin-bottom: 20px;
+    line-height: 1.3;
+    text-shadow: 0 2px 15px rgba(0, 0, 0, 0.4);
+}
+
+.heroSubtitle {
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    margin-bottom: 40px;
+    opacity: 0.9;
+}
+
+.heroCtaButton {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 15px 40px;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: inline-block;
+}
+
+.heroCtaButton:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* --- General Section Styles --- */
+.section {
+    padding: 80px 20px;
+}
+
+.sectionHeader {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.sectionTitle {
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.sectionSubtitle {
+    font-size: 1.1rem;
+    color: #666;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* --- Most Opted Tests Section --- */
+.testGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 30px;
+    justify-content: center;
+}
+
+.testCard {
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    text-decoration: none;
+    color: #333;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.07);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #eef2f7;
+}
+
+.testCard:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+}
+
+.testIcon {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 20px;
+}
+
+.testName {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+/* --- Button for Exploring All Tests --- */
+.exploreTestsButton {
+    display: block;
+    width: fit-content;
+    margin: 40px auto 0;
+    background-color: #764ba2;
+    color: #fff;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.exploreTestsButton:hover {
+    background-color: #663a82;
+    transform: translateY(-2px);
+}
+
+
+/* --- Feedback Section --- */
+.feedbackSection {
+    background-color: #ffffff;
+}
+
+.feedbackSection .sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    text-align: left;
+}
+
+/* --- "See All" Link/Button Style --- */
+.seeAllLink {
+    text-decoration: none;
+    color: #764ba2;
+    font-weight: 600;
+    transition: color 0.3s ease;
+    white-space: nowrap;
+    margin-bottom: 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem; 
+    font-family: 'Poppins', sans-serif;
+}
+
+.seeAllLink i {
+    margin-left: 8px;
+    transition: transform 0.3s ease;
+}
+
+.seeAllLink:hover {
+    color: #663a82;
+}
+
+.seeAllLink:hover i {
+    transform: translateX(5px);
+}
+
+.feedbackGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.feedbackCard {
+    background-color: #f8f9fa;
+    padding: 30px;
+    border-radius: 15px;
+    border-top: 4px solid #764ba2; 
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.05);
+}
+
+.reviewText {
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 20px;
+    font-style: italic;
+    color: #555;
+    position: relative;
+    padding-left: 20px;
+}
+
+.reviewText::before {
+    content: '“';
+    position: absolute;
+    left: -10px;
+    top: -10px;
+    font-size: 50px;
+    color: #e0e0e0;
+    z-index: 0;
+}
+
+.reviewerName {
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-align: right;
+    color: #333;
+}
+
+.feedbackButton {
+    display: block;
+    width: fit-content;
+    margin: 40px auto 0;
+    background-color: #fff;
+    color: #764ba2;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    border: 2px solid #764ba2;
+    transition: all 0.3s ease;
+}
+
+.feedbackButton:hover {
+    background-color: #764ba2;
+    color: #fff;
+}
+
+
+.feedbackError {
+    color: #dc3545;
+    text-align: center;
+    width: 100%;
+    grid-column: 1 / -1;
+}
+
+/* --- Styles for Ratings --- */
+.starRating {
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
+.starFilled {
+    color: #ffc107;
+}
+
+.starEmpty {
+    color: #e0e0e0;
+}
+
+.overallRating {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    max-width: 400px;
+    margin: 0 auto 50px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.07);
+}
+
+.avgRatingValue {
+    font-size: 48px;
+    font-weight: 700;
+    color: #333;
+}
+
+.ratingDetails .starRating {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.ratingDetails p {
+    margin: 0;
+    color: #666;
+    font-size: 14px;
+}
+
+/* --- Footer Section --- */
+.footer {
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    padding: 50px 20px;
+}
+
+.footerContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footerColumn {
+    flex: 1;
+    min-width: 250px;
+}
+
+.footerHeader {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.footerLink, .footerText, button.footerLink {
+    display: block;
+    color: #bdc3c7;
+    text-decoration: none;
+    margin-bottom: 10px;
+    transition: color 0.3s ease;
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 1rem;
+    text-align: left;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+}
+
+.footerLink:hover, button.footerLink:hover {
+    color: #fff;
+}
+
+.socialIcons {
+    display: flex;
+    gap: 15px;
+}
+
+.socialLink {
+    color: #bdc3c7;
+    font-size: 1.2rem;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.socialLink:hover {
+    color: #fff;
+    transform: scale(1.1);
+}
+
+.footerCopyright {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #34495e;
+    font-size: 0.9rem;
+    color: #95a5a6;
+}
+

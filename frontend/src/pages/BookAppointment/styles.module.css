@@ -1,0 +1,290 @@
+/* ===================================================================
+   BookAppointment Page Styles - Modern UI
+=================================================================== */
+
+/* --- Import Font --- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* --- Root Variables --- */
+:root {
+  --primary-blue: #007bff;
+  --primary-dark-blue: #0056b3;
+  --light-gray-bg: #f8f9fa;
+  --text-dark: #343a40;
+  --text-light: #6c757d;
+  --white: #ffffff;
+  --border-color: #dee2e6;
+  --success-green: #28a745;
+  --danger-red: #dc3545;
+}
+
+/* --- Main Page Wrapper --- */
+.pageWrapper {
+  font-family: 'Poppins', sans-serif;
+  padding: 80px 20px 60px;
+  background-color: var(--light-gray-bg);
+  color: var(--text-dark);
+  min-height: 100vh;
+}
+
+.appointmentContainer {
+  max-width: 1300px;
+  margin: 0 auto;
+  background-color: var(--white);
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding: 30px;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--primary-dark-blue);
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.contentWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+/* --- Calendar Section --- */
+.calendarSection {
+  flex: 1;
+  min-width: 300px;
+}
+
+.react-calendar {
+  width: 100% !important;
+  border-radius: 12px;
+  border: none !important;
+  font-family: 'Poppins', sans-serif;
+}
+
+.react-calendar__tile--active {
+  background: var(--primary-blue) !important;
+  color: white !important;
+}
+
+/* --- Form Section --- */
+.formSection {
+  flex: 2;
+  min-width: 400px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.formRow {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.form input[type="text"],
+.form input[type="email"],
+.form select {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.form input:focus,
+.form select:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+}
+
+/* --- Address Collection Card --- */
+.addressCard {
+  background-color: var(--light-gray-bg);
+  border-radius: 16px;
+  padding: 25px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.05);
+  margin-bottom: 20px;
+}
+
+.addressCard h3 {
+  color: var(--primary-blue);
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+/* --- Multi-Select Cards (Profiles / Tests) --- */
+.multiSelect {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.multiSelect button {
+  background-color: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.multiSelect button:hover:not(:disabled) {
+  background-color: var(--primary-blue);
+  color: white;
+  border-color: var(--primary-blue);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,123,255,0.25);
+}
+
+.multiSelect button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* --- Selected Items / Cart --- */
+.selectedItems {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+  max-height: 150px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.selectedItem {
+  background-color: #e2f0ff;
+  border: 1px solid #90cdf4;
+  border-radius: 14px;
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.removeItem {
+  font-weight: 700;
+  cursor: pointer;
+  color: #dc3545;
+  transition: all 0.2s ease;
+}
+
+.removeItem:hover {
+  transform: scale(1.2);
+}
+
+/* --- Price Display --- */
+.priceDisplay {
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 12px 15px;
+  background-color: var(--light-gray-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  text-align: center;
+}
+
+/* --- Door-to-Door Radio --- */
+.radioGroup {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+
+.radioGroup input[type="radio"] {
+  margin-right: 8px;
+  accent-color: var(--primary-blue);
+}
+
+/* --- Buttons --- */
+.submitButton,
+.viewMoreBtn {
+  display: inline-block;
+  background-color: var(--primary-blue);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.submitButton:hover,
+.viewMoreBtn:hover {
+  background-color: var(--primary-dark-blue);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,123,255,0.25);
+}
+
+/* --- Go Back to Home --- */
+.backLink {
+  display: inline-block;
+  margin-top: 30px;
+  text-align: center;
+  font-size: 1rem;
+  color: var(--primary-blue);
+  font-weight: 600;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.backLink:hover {
+  background-color: var(--primary-blue);
+  color: white;
+  border-color: var(--primary-blue);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,123,255,0.2);
+}
+
+/* --- Scrollbar Styling --- */
+.selectedItems::-webkit-scrollbar {
+  width: 6px;
+}
+
+.selectedItems::-webkit-scrollbar-thumb {
+  background-color: #90cdf4;
+  border-radius: 3px;
+}
+
+.selectedItems::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+/* --- Responsive --- */
+@media (max-width: 1200px) {
+  .contentWrapper {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 600px) {
+  .formRow {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .pageWrapper {
+    padding: 60px 15px 40px;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+}
