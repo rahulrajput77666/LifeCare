@@ -3,11 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import styles from "./styles.module.css";
-const API_BASE =
-  process.env.REACT_APP_API_URL ||
-  (window.location.hostname === "localhost"
-    ? "http://localhost:5000"
-    : window.location.origin);
+const API_BASE = process.env.REACT_APP_API_URL || 'https://lifecare-pathology.onrender.com';
 
 const EmailVerify = () => {
   const [validUrl, setValidUrl] = useState(false);
@@ -41,6 +37,10 @@ const EmailVerify = () => {
         <h1>404 Not Found</h1>
       )}
     </React.Fragment>
+  );
+};
+
+export default EmailVerify;
   );
 };
 

@@ -147,7 +147,7 @@ const Style = () => (
     `}</style>
 );
 
-const API_BASE = process.env.REACT_APP_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:5000' : window.location.origin);
+const API_BASE = process.env.REACT_APP_API_URL || 'https://lifecare-pathology.onrender.com';
 
 function ContactUs() {
     const [data, setData] = useState({ name: "", email: "", message: "" });

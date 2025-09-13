@@ -47,8 +47,8 @@ function NavBar() {
 
     const userDetails = user?.user || user;
 
-    // Backend base URL for uploaded files
-    const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+    // Backend base URL for uploaded files (prefer env, fallback to deployed backend)
+    const API_BASE = process.env.REACT_APP_API_URL || 'https://lifecare-pathology.onrender.com';
 
     // Build profile image URL:
     // - If profilePicture is empty -> use ui-avatars

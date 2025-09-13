@@ -5,8 +5,8 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import axios from "axios";
 
-// add API base (prefer env var, use localhost for development, otherwise same origin)
-const API_BASE = process.env.REACT_APP_API_URL || (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : window.location.origin);
+// API base: prefer REACT_APP_API_URL, otherwise use deployed backend
+const API_BASE = process.env.REACT_APP_API_URL || 'https://lifecare-pathology.onrender.com';
 
 function BookAppointment() {
   const navigate = useNavigate();

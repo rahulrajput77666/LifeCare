@@ -3,11 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import styles from "./styles.module.css";
 
-const API_BASE =
-  process.env.REACT_APP_API_URL ||
-  (window.location.hostname === "localhost"
-    ? "http://localhost:5000"
-    : window.location.origin);
+const API_BASE = process.env.REACT_APP_API_URL || 'https://lifecare-pathology.onrender.com';
 
 const Register = () => {
   const [data, setData] = useState({
@@ -96,6 +92,10 @@ const Register = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+export default Register;
   );
 };
 

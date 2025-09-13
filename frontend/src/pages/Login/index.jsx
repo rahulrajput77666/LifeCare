@@ -3,12 +3,8 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./styles.module.css";
 
-// API base: prefer REACT_APP_API_URL, use localhost in dev, otherwise same origin
-const API_BASE =
-  process.env.REACT_APP_API_URL ||
-  (window.location.hostname === "localhost"
-    ? "http://localhost:5000"
-    : window.location.origin);
+// API base: prefer REACT_APP_API_URL, otherwise use deployed backend
+const API_BASE = process.env.REACT_APP_API_URL || 'https://lifecare-pathology.onrender.com';
 
 function Login() {
   const [data, setData] = useState({ email: "", password: "" });
@@ -126,6 +122,10 @@ function Login() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default Login;
   );
 }
 

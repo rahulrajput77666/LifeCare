@@ -28,8 +28,8 @@ function UserProfile() {
     // This robustly gets user details, handling nested or flat structures
     const userDetails = user?.user || user;
 
-    // Add API base (can be overridden)
-    const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+    // API base: prefer REACT_APP_API_URL, otherwise use deployed backend
+    const API_BASE = process.env.REACT_APP_API_URL || 'https://lifecare-pathology.onrender.com';
 
     // Helper to build secure report download URL including token
     const getReportUrl = (filename) => {

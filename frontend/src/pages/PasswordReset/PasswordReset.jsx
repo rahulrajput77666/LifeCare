@@ -3,11 +3,7 @@ import { useEffect, useState, Fragment } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import styles from "./styles.module.css";
-const API_BASE =
-  process.env.REACT_APP_API_URL ||
-  (window.location.hostname === "localhost"
-    ? "http://localhost:5000"
-    : window.location.origin);
+const API_BASE = process.env.REACT_APP_API_URL || 'https://lifecare-pathology.onrender.com';
 
 const PasswordReset = () => {
   const [validUrl, setValidUrl] = useState(false);
@@ -74,6 +70,10 @@ const PasswordReset = () => {
         <h1>404 Not Found</h1>
       )}
     </Fragment>
+  );
+};
+
+export default PasswordReset;
   );
 };
 
