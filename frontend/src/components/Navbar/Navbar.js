@@ -74,49 +74,81 @@ function NavBar() {
                     <img src="/logo192.png" className={styles.logo} alt="LifeCare Logo" />
                 </NavLink>
 
-                <nav className={styles.navMenu}>
-                    <NavLink className={({ isActive }) => isActive ? `${styles.navLink} ${styles.activeLink}` : styles.navLink} to="/">Home</NavLink>
-                    <div className={styles.dropdown}>
-                        <button className={styles.navLink}>Services</button>
-                        <div className={styles.dropdownContent}>
-                            <NavLink to="/explore-tests">Explore Tests</NavLink>
-                            <NavLink to="/book-appointment">Book Appointment</NavLink>
-                            <NavLink to="/faq">FAQs</NavLink>
-                            <NavLink to="/feedback">Share Feedback</NavLink>
-                        </div>
-                    </div>
-                    <NavLink className={({ isActive }) => isActive ? `${styles.navLink} ${styles.activeLink}` : styles.navLink} to="/contact-us">Contact Us</NavLink>
-                </nav>
+               {/* ✅ Logo remains outside this group (on the far left) */}
 
-                <div className={styles.navActions}>
-                    {user ? (
-                        <>
-                            {/* ✅ Show Admin Dashboard only if admin */}
-                            {isAdmin && (
-                                <NavLink to="/admin" className={styles.authButton}>
-                                    Admin Dashboard
-                                </NavLink>
-                            )}
+<div className={styles.navRightGroup}>
+    <nav className={styles.navMenu}>
+        <NavLink
+            className={({ isActive }) =>
+                isActive
+                    ? `${styles.navLink} ${styles.activeLink}`
+                    : styles.navLink
+            }
+            to="/"
+        >
+            Home
+        </NavLink>
 
-                            <NavLink to="/user-profile" className={styles.profileLink}>
-                                <img
-                                    src={getProfileImageSrc()}
-                                    alt="My Profile"
-                                    className={styles.profileImage}
-                                    onError={(e) => {
-                                        // fallback to UI avatars if uploaded image fails to load
-                                        e.target.onerror = null;
-                                        e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(userDetails?.firstName || '')}+${encodeURIComponent(userDetails?.lastName || '')}&background=0D8ABC&color=fff&size=48`;
-                                    }}
-                                />
-                            </NavLink>
+        <div className={styles.dropdown}>
+            <button className={styles.navLink}>Services</button>
+            <div className={styles.dropdownContent}>
+                <NavLink to="/explore-tests">Explore Tests</NavLink>
+                <NavLink to="/book-appointment">Book Appointment</NavLink>
+                <NavLink to="/faq">FAQs</NavLink>
+                <NavLink to="/feedback">Share Feedback</NavLink>
+            </div>
+        </div>
 
-                            <button onClick={handleLogout} className={styles.authButton}>Logout</button>
-                        </>
-                    ) : (
-                        <NavLink to="/login" className={styles.authButton}>Login</NavLink>
-                    )}
-                </div>
+        <NavLink
+            className={({ isActive }) =>
+                isActive
+                    ? `${styles.navLink} ${styles.activeLink}`
+                    : styles.navLink
+            }
+            to="/contact-us"
+        >
+            Contact Us
+        </NavLink>
+    </nav>
+
+    <div className={styles.navActions}>
+        {user ? (
+            <>
+                {/* ✅ Show Admin Dashboard only if admin */}
+                {isAdmin && (
+                    <NavLink to="/admin" className={styles.authButton}>
+                        Admin Dashboard
+                    </NavLink>
+                )}
+
+                <NavLink to="/user-profile" className={styles.profileLink}>
+                    <img
+                        src={getProfileImageSrc()}
+                        alt="My Profile"
+                        className={styles.profileImage}
+                        onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                                userDetails?.firstName || ""
+                            )}+${encodeURIComponent(
+                                userDetails?.lastName || ""
+                            )}&background=0D8ABC&color=fff&size=48`;
+                        }}
+                    />
+                </NavLink>
+
+                <button onClick={handleLogout} className={styles.authButton}>
+                    Logout
+                </button>
+            </>
+        ) : (
+            <NavLink to="/login" className={styles.authButton}>
+                Login
+            </NavLink>
+        )}
+    </div>
+</div>
+
             </div>
         </header>
     );

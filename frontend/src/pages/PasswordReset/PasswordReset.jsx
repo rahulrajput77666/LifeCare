@@ -74,7 +74,5 @@ const PasswordReset = () => {
 };
 
 export default PasswordReset;
-  );
-};
 
-export default PasswordReset;
+
