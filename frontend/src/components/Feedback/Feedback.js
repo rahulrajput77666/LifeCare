@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import styles from './styles.module.css';
-// The image is now correctly imported from the same folder.
 import illustration from './feedback.jpg'; 
 
-// A self-contained Star Rating sub-component for a clean and interactive rating experience.
+// Reusable star rating sub-component
 const StarRating = ({ rating, onRatingChange }) => {
     const [hoverRating, setHoverRating] = useState(0);
     const stars = [1, 2, 3, 4, 5];
@@ -27,30 +26,10 @@ const StarRating = ({ rating, onRatingChange }) => {
 };
 
 function Feedback() {
-    // State now only holds email initially, name will be entered by user.
     const [data, setData] = useState({ name: "", email: "", feedback: "", rating: 0 });
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
     const navigate = useNavigate();
-
-    // On component load, check if the user is logged in and pre-fill their email.
-    useEffect(() => {
-        const userString = localStorage.getItem("user");
-        if (!userString) {
-            navigate("/login");
-            return; 
-        }
-
-        const userData = JSON.parse(userString);
-        
-        // FIX: Removed the database call for the user's name.
-        // The form now only pre-fills the email from localStorage.
-        setData(prevState => ({
-            ...prevState,
-            email: userData.email || '' 
-        }));
-
-    }, [navigate]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -66,14 +45,13 @@ function Feedback() {
         setError("");
         setSuccess("");
 
-        // Added validation for the manually entered name.
-        if (!data.name || !data.feedback || data.rating === 0) {
-            setError("Please fill in your name, provide feedback, and a star rating.");
+        if (!data.name || !data.email || !data.feedback || data.rating === 0) {
+            setError("Please fill in all fields and provide a star rating.");
             return;
         }
 
         try {
-            const url = "http://localhost:5000/api/feedback/";
+            const url = "https://lifecare-pathology.onrender.com/api/feedback/";
             await axios.post(url, data);
             
             setSuccess("Thank you for your valuable feedback!");
@@ -100,31 +78,31 @@ function Feedback() {
                     <p className={styles.subtitle}>Your feedback helps us improve our services for everyone.</p>
                     
                     <form onSubmit={handleSubmit} className={styles.form}>
-                        {/* FIX: The "name" input is now editable and no longer read-only. */}
                         <div className={styles.formGroup}>
                             <label htmlFor="name">Your Name</label>
                             <input 
                                 id="name" 
                                 name="name" 
                                 type="text" 
-                                placeholder="Please enter your name" 
+                                placeholder="Enter your name" 
                                 className={styles.input} 
                                 value={data.name} 
                                 onChange={handleChange}
                                 required 
                             />
                         </div>
-                        
+
                         <div className={styles.formGroup}>
                             <label htmlFor="email">Your Email</label>
                             <input 
                                 id="email" 
                                 name="email" 
                                 type="email" 
-                                placeholder="Loading email..." 
+                                placeholder="Enter your email" 
                                 className={styles.input} 
                                 value={data.email} 
-                                readOnly
+                                onChange={handleChange}
+                                required 
                             />
                         </div>
                         
@@ -160,4 +138,3 @@ function Feedback() {
 }
 
 export default Feedback;
-
