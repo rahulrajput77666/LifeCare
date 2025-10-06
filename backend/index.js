@@ -50,12 +50,10 @@ app.use("/api/reports", reportRoute);
 app.use("/api/checkout", razorpayRoute);
 
 // Serve uploaded files (e.g., profile pictures, reports)
-// This is a valid back-end task and should remain.
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// --- REMOVED THE CODE THAT SERVED THE REACT APP ---
-// The section that started with "const buildPath = ..." has been removed.
-// Vercel is responsible for serving the front-end, not this server.
+// --- DO NOT SERVE REACT APP HERE ---
+// Remove any code that serves frontend/build or index.html.
 
 // Optional: global error handler for API routes
 app.use((err, req, res, next) => {

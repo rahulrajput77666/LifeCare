@@ -4,7 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import styles from "./styles.module.css";
 
 // API base: prefer REACT_APP_API_URL, otherwise use deployed backend
-const API_BASE = process.env.REACT_APP_API_URL || 'https://lifecare-pathology.onrender.com';
+const API_BASE =
+  process.env.REACT_APP_API_URL || "https://lifecare-pathology.onrender.com";
 
 function Login() {
   const [data, setData] = useState({ email: "", password: "" });
@@ -28,14 +29,23 @@ function Login() {
       // The token is typically in res.data, and user info in res.user.
 
       // Construct a complete user object to store
-      const userToStore = {
-        ...res.user, // This will include firstName, lastName, email etc. from the backend
-        token: res.data, // This adds the token to the user object
-      };
-
-      // Save the complete user object to local storage.
-      // This ensures the token and user details are available on other pages.
-      localStorage.setItem("user", JSON.stringify(userToStore));
+      if (res.user && res.data) {
+        localStorage.setItem(
+          "user",
+          JSON.stringify({ user: res.user, token: res.data })
+        );
+      } else if (res.data) {
+        localStorage.setItem(
+          "user",
+          JSON.stringify({ user: {}, token: res.data })
+        );
+      } else {
+        // fallback for legacy backend responses
+        localStorage.setItem(
+          "user",
+          JSON.stringify({ ...res, token: res.data || res.token })
+        );
+      }
 
       // Dispatch a custom event to notify other components (like NavBar) of the login
       window.dispatchEvent(new Event("userLoggedIn"));
@@ -126,4 +136,3 @@ function Login() {
 }
 
 export default Login;
-

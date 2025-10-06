@@ -2,8 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const dotenv = require("dotenv");
-const path = require("path"); // Import the 'path' module
 
+// dotenv configuration
 dotenv.config();
 
 const app = express();
@@ -13,7 +13,7 @@ const userRoute = require("./routes/user");
 const authRoute = require("./routes/auth");
 const appointmentRoute = require("./routes/appointment");
 const editTestRoute = require("./routes/EditTest");
-const profilesRoute = require("./routes/profiles"); // <-- mount profiles API
+const profilesRoute = require("./routes/profiles");
 // (Import all your other API route files here)
 
 // --- MONGODB CONNECTION ---
@@ -34,7 +34,7 @@ app.use(cors({
 app.use(express.json());
 
 // --- API ROUTES ---
-// Your backend API routes should be defined BEFORE the React app is served.
+// Your backend API routes should be defined BEFORE any frontend serving logic.
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/appointment", appointmentRoute);
@@ -56,17 +56,12 @@ app.use((err, req, res, next) => {
   res.status(err && err.status ? err.status : 500).json(payload);
 });
 
-// --- SERVE REACT APP (The Fix) ---
-// This section serves the built React app from the 'frontend/build' folder.
-const buildPath = path.join(__dirname, '../frontend/build');
-app.use(express.static(buildPath));
+// --- DO NOT SERVE REACT APP HERE ---
+// Remove any code that serves frontend/build or index.html.
+// Vercel/Netlify/Render will serve the frontend separately.
 
-// This is the catch-all route. For any request that doesn't match an API route,
-// it sends back the main index.html file from the React build.
-// This allows React Router to handle the routing on the client-side.
-app.get('*', (req, res) => {
-  res.sendFile(path.join(buildPath, 'index.html'));
-});
+// --- START SERVER ---
+
 
 // --- START SERVER ---
 const PORT = process.env.PORT || 5000;

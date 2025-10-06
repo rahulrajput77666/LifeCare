@@ -6,6 +6,7 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const { verifyToken } = require("../middleware/verifyToken");
 
 // Ensure uploads/reports directory exists to prevent multer errors
 const UPLOADS_REPORTS_DIR = path.join(__dirname, '..', 'uploads', 'reports');
@@ -36,20 +37,6 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({ storage: storage, fileFilter: fileFilter });
 
 // --- MIDDLEWARE ---
-
-// Middleware to verify any logged-in user (not just admin)
-const verifyToken = (req, res, next) => {
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return res.status(401).json({ message: "Access denied. No token provided." });
-    }
-    const token = authHeader.split(' ')[1];
-    jwt.verify(token, process.env.JWTPRIVATEKEY, (err, decoded) => {
-        if (err) return res.status(403).json({ message: "Token is not valid!" });
-        req.user = decoded;
-        next();
-    });
-};
 
 // Admin verification middleware
 const verifyTokenAndAdmin = (req, res, next) => {
@@ -86,9 +73,14 @@ router.get('/my-appointments', verifyToken, async (req, res) => {
 // Book an appointment - now requires login and links to user
 router.post('/bookAppointment', verifyToken, async (req, res) => {
     try {
-        // User details are now taken from the verified token, not the request body
+        console.log("Decoded JWT user:", req.user);
+        if (!req.user._id) {
+            console.warn("JWT payload missing _id:", req.user);
+            return res.status(403).json({ message: "Invalid token: missing user id." });
+        }
         const user = await User.findById(req.user._id);
         if (!user) {
+            console.warn("Authenticated user not found for _id:", req.user._id);
             return res.status(404).json({ message: "Authenticated user not found." });
         }
 
@@ -101,6 +93,7 @@ router.post('/bookAppointment', verifyToken, async (req, res) => {
         // Return the created appointment so frontend can get its id for payment
         res.status(201).json({ message: "Appointment booked successfully!", appointment: newAppointment });
     } catch (error) {
+        console.error("Book appointment error:", error);
         res.status(500).json({ message: "Internal Server Error" });
     }
 });
@@ -246,7 +239,6 @@ router.post('/uploadReport/:id', verifyTokenAndAdmin, upload.single('report'), a
         res.status(500).json({ message: "Internal Server Error", error: error.message });
     }
 });
-
 
 module.exports = router;
 

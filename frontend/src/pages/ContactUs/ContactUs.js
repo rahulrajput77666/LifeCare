@@ -159,14 +159,15 @@ function ContactUs() {
         const userString = localStorage.getItem("user");
         if (!userString) {
             console.log("No user found, redirecting to login.");
-            // FIX: Use window.location.pathname to avoid router context errors.
             window.location.pathname = "/Login";
         } else {
             const userData = JSON.parse(userString);
+            // Always extract user info from 'user' if present
+            const details = userData.user || userData;
             setData(prevState => ({
                 ...prevState,
-                name: userData.name || '',
-                email: userData.email || ''
+                name: details.firstName ? `${details.firstName} ${details.lastName}` : '',
+                email: details.email || ''
             }));
         }
     }, []); // Dependency array is empty
@@ -210,12 +211,11 @@ function ContactUs() {
                             <form onSubmit={handleSubmit}>
                                 <div className="formGroup">
                                     <label className="formLabel" htmlFor="name">Name</label>
-                                    {/* FIX: Removed readOnly to allow user input, as name is not available from localStorage */}
-                                    <input id="name" name="name" type="text" className="formInput" onChange={handleChange} value={data.name} required />
+                                    <input id="name" name="name" type="text" className="formInput" value={data.name} readOnly />
                                 </div>
                                 <div className="formGroup">
                                     <label className="formLabel" htmlFor="email">Email ID</label>
-                                    <input id="email" name="email" type="email" className="formInput" onChange={handleChange} value={data.email} required readOnly />
+                                    <input id="email" name="email" type="email" className="formInput" value={data.email} readOnly />
                                 </div>
                                 <div className="formGroup">
                                     <label className="formLabel" htmlFor="message">Type your message</label>

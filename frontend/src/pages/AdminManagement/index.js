@@ -14,6 +14,8 @@ function AdminManagement() {
     const [individualTests, setIndividualTests] = useState([]);
     const [profiles, setProfiles] = useState([]);
     const [appointments, setAppointments] = useState([]);
+    const [feedbacks, setFeedbacks] = useState([]);
+    const [contacts, setContacts] = useState([]);
 
     const [newTest, setNewTest] = useState({ name: '', price: '' });
     const [editingTestId, setEditingTestId] = useState(null);
@@ -75,6 +77,26 @@ function AdminManagement() {
                 // no token: clear appointments
                 setAppointments([]);
             }
+
+            // Fetch feedbacks and contacts for admin tab
+            if (token) {
+                try {
+                    const config = { headers: { Authorization: `Bearer ${token}` } };
+                    // Feedback
+                    const feedbackRes = await axios.get(`${API_BASE}/api/feedback/`, config);
+                    setFeedbacks(feedbackRes.data?.reviews || []);
+                    // Contacts
+                    const contactRes = await axios.get(`${API_BASE}/api/contact/`, config);
+                    setContacts(contactRes.data || []);
+                } catch (err) {
+                    console.warn("Feedback/Contact fetch failed:", err?.message);
+                    setFeedbacks([]);
+                    setContacts([]);
+                }
+            } else {
+                setFeedbacks([]);
+                setContacts([]);
+            }
         } catch (error) {
             console.warn("Failed to fetch tests/profiles:", error?.message || error);
             showMessage('error', 'Failed to fetch tests or profiles. Is the backend running?');
@@ -116,12 +138,13 @@ function AdminManagement() {
 
             if (token && isAdmin) {
                 const userObject = {
-                    email: loginData.email,
-                    token,
-                    isAdmin,
-                    // keep user's basic info if backend returned it
-                    firstName: response.data?.user?.firstName || '',
-                    lastName: response.data?.user?.lastName || ''
+                    user: {
+                        email: loginData.email,
+                        isAdmin,
+                        firstName: response.data?.user?.firstName || '',
+                        lastName: response.data?.user?.lastName || ''
+                    },
+                    token
                 };
                 localStorage.setItem('user', JSON.stringify(userObject));
                 setAdminUser(userObject);
@@ -403,6 +426,7 @@ return (
                     <button onClick={() => setActiveTab('tests')} className={activeTab === 'tests' ? styles.active : ''}><TestIcon /> Manage Tests</button>
                     <button onClick={() => setActiveTab('profiles')} className={activeTab === 'profiles' ? styles.active : ''}><ProfileIcon /> Manage Profiles</button>
                     <button onClick={() => setActiveTab('appointments')} className={activeTab === 'appointments' ? styles.active : ''}><AppointmentIcon /> Manage Appointments</button>
+                    <button onClick={() => setActiveTab('feedback')} className={activeTab === 'feedback' ? styles.active : ''}><i className="fas fa-comments"></i> Feedback & Contacts</button>
                 </nav>
 
                 <main className={styles.tabContent}>
@@ -636,6 +660,84 @@ return (
                                         })}
                                     </tbody>
                                 </table>
+                            </div>
+                        </section>
+                    )}
+
+                    {/* --- FEEDBACK & CONTACTS TAB --- */}
+                    {activeTab === 'feedback' && (
+                        <section className={`${styles.card} ${styles.fullWidthCard}`}>
+                            <h2>Feedback & Contacts</h2>
+                            <div style={{ display: 'flex', gap: '32px', flexWrap: 'wrap', alignItems: 'flex-start' }}>
+                                {/* Feedback Section */}
+                                <div style={{ flex: 1, minWidth: 320 }}>
+                                    <h3 style={{ marginBottom: 16 }}>Feedback</h3>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+                                        {feedbacks.length > 0 ? feedbacks.map(fb => (
+                                            <div key={fb._id} style={{
+                                                background: 'linear-gradient(135deg, #f7faff 0%, #eae6ff 100%)',
+                                                borderRadius: 14,
+                                                boxShadow: '0 4px 16px rgba(118,75,162,0.08)',
+                                                padding: 18,
+                                                marginBottom: 0,
+                                                border: '1px solid #ececec',
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                gap: 8
+                                            }}>
+                                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                                    <span style={{ fontWeight: 700, fontSize: 17 }}>{fb.name}</span>
+                                                    <span style={{ color: '#764ba2', fontWeight: 600 }}>{fb.email}</span>
+                                                </div>
+                                                <div style={{ fontSize: 15, color: '#333', margin: '6px 0' }}>
+                                                    {fb.feedback}
+                                                </div>
+                                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 14 }}>
+                                                    <span>
+                                                        <span style={{ color: '#ffc107', fontWeight: 700 }}>★</span> {fb.rating}
+                                                    </span>
+                                                    <span style={{ color: '#888' }}>{fb.createdAt ? new Date(fb.createdAt).toLocaleString() : ''}</span>
+                                                </div>
+                                            </div>
+                                        )) : (
+                                            <div style={{ textAlign: 'center', color: '#888', padding: 24, borderRadius: 12, background: '#f8f8fa' }}>No feedback found.</div>
+                                        )}
+                                    </div>
+                                </div>
+                                {/* Contacts Section */}
+                                <div style={{ flex: 1, minWidth: 320 }}>
+                                    <h3 style={{ marginBottom: 16 }}>Contact Requests</h3>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+                                        {contacts.length > 0 ? contacts.map(c => (
+                                            <div key={c._id} style={{
+                                                background: 'linear-gradient(135deg, #fff7f0 0%, #f7e6ff 100%)',
+                                                borderRadius: 14,
+                                                boxShadow: '0 4px 16px rgba(251,189,102,0.08)',
+                                                padding: 18,
+                                                marginBottom: 0,
+                                                border: '1px solid #ececec',
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                gap: 8
+                                            }}>
+                                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                                    <span style={{ fontWeight: 700, fontSize: 17 }}>{c.name}</span>
+                                                    <span style={{ color: '#fbad66', fontWeight: 600 }}>{c.email}</span>
+                                                </div>
+                                                <div style={{ fontSize: 15, color: '#333', margin: '6px 0' }}>
+                                                    {c.issue || c.message}
+                                                </div>
+                                                <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', fontSize: 14 }}>
+                                                    <span style={{ color: '#888' }}>
+                                                        {c.createdAt ? new Date(c.createdAt).toLocaleString() : ''}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        )) : (
+                                            <div style={{ textAlign: 'center', color: '#888', padding: 24, borderRadius: 12, background: '#f8f8fa' }}>No contact requests found.</div>
+                                        )}
+                                    </div>
+                                </div>
                             </div>
                         </section>
                     )}

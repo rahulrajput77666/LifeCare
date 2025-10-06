@@ -45,11 +45,13 @@ function BookAppointment() {
       navigate("/Login");
     } else {
       const userData = JSON.parse(userString);
+      const details = userData.user || userData;
+      // Debug: log user details for troubleshooting
+      console.log("User details for booking:", details);
       setFormData(prev => ({
         ...prev,
-        // Pre-fill name and email from the logged-in user's data
-        name: `${userData.firstName} ${userData.lastName}` || "",
-        email: userData.email || "",
+        name: `${details.firstName || ''} ${details.lastName || ''}`.trim(),
+        email: details.email || "",
       }));
     }
   }, [navigate]);
@@ -126,6 +128,10 @@ function BookAppointment() {
         setSubmitError("Authentication token not found. Please log in again.");
         return;
     }
+
+    // Debug: log token before making request
+    console.log("Booking appointment with token:", token);
+
     const config = {
         headers: {
             'Content-Type': 'application/json',

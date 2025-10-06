@@ -3,7 +3,8 @@ import { useState } from "react";
 import axios from "axios";
 import styles from "./styles.module.css";
 
-const API_BASE = process.env.REACT_APP_API_URL || 'https://lifecare-pathology.onrender.com';
+const API_BASE =
+  process.env.REACT_APP_API_URL || "https://lifecare-pathology.onrender.com";
 
 const Register = () => {
   const [data, setData] = useState({
@@ -27,7 +28,19 @@ const Register = () => {
         `${API_BASE}/api/auth/Register`,
         data
       );
-      localStorage.setItem("token", res.data);
+      // Always store user info as { user: ..., token: ... }
+      if (res.user && res.data) {
+        localStorage.setItem(
+          "user",
+          JSON.stringify({ user: res.user, token: res.data })
+        );
+      } else if (res.data) {
+        // If backend only returns token, store as { user: {}, token }
+        localStorage.setItem(
+          "user",
+          JSON.stringify({ user: {}, token: res.data })
+        );
+      }
       setMsg("Message Sent");
       window.location = "/Login";
     } catch (error) {
@@ -96,4 +109,3 @@ const Register = () => {
 };
 
 export default Register;
-

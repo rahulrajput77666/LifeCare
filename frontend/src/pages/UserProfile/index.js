@@ -50,17 +50,17 @@ function UserProfile() {
             }
 
             const parsedUser = JSON.parse(userDataFromStorage);
+            // Always extract user info from 'user' if present
+            const currentUserDetails = parsedUser.user || parsedUser;
             setUser(parsedUser);
 
-            // Allow admins to view their user profile as well — do not redirect.
-            const currentUserDetails = parsedUser.user || parsedUser;
             setEditData({
                 firstName: currentUserDetails.firstName || '',
                 lastName: currentUserDetails.lastName || ''
             });
 
             try {
-                const token = parsedUser.data || parsedUser.token;
+                const token = parsedUser.token || parsedUser.data;
                 if (!token) {
                     setError("Authentication token not found. Please log in again.");
                     setLoading(false);
