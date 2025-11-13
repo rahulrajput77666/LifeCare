@@ -25,6 +25,7 @@ function BookAppointment() {
     doorToDoor: "no",
     email: "",
     name: "",
+    mobile: "",
     streetAddress: "",
     roadNo: "",
     city: "",
@@ -46,12 +47,13 @@ function BookAppointment() {
     } else {
       const userData = JSON.parse(userString);
       const details = userData.user || userData;
-      // Debug: log user details for troubleshooting
+      // Debug: log user details for booking
       console.log("User details for booking:", details);
       setFormData(prev => ({
         ...prev,
         name: `${details.firstName || ''} ${details.lastName || ''}`.trim(),
         email: details.email || "",
+        mobile: details.mobile || details.phone || "" // <-- new: prefill mobile if present
       }));
     }
   }, [navigate]);
@@ -112,6 +114,7 @@ function BookAppointment() {
       setSubmitError("Please fill in all required fields.");
       return;
     }
+
     if (selectedProfiles.length === 0 && selectedTests.length === 0) {
         setSubmitError("Please select at least one test or profile.");
         return;
@@ -142,6 +145,7 @@ function BookAppointment() {
     const appointmentData = {
       name: formData.name,
       email: formData.email,
+      mobile: formData.mobile,
       date,
       tests: selectedTests.map(t => t._id),
       profiles: selectedProfiles.map(p => p._id),
@@ -228,6 +232,7 @@ function BookAppointment() {
                   readOnly // User's email should not be changed
                   required
                 />
+                {/* mobile input removed */}
               </div>
 
               <div className={styles.formGroup}>
@@ -328,12 +333,13 @@ function BookAppointment() {
               </div>
 
               <div className={styles.addressCard}>
-                <h3>Collection Address</h3>
+                <h3>Contact & Collection Address</h3>
+                <input type="text" name="pincode" placeholder="mobile number" value={formData.pincode} onChange={handleInputChange} required />
                 <input type="text" name="streetAddress" placeholder="Street Address" value={formData.streetAddress} onChange={handleInputChange} required />
-                <input type="text" name="roadNo" placeholder="Road / Apt No." value={formData.roadNo} onChange={handleInputChange} required />
+                <input type="text" name="roadNo" placeholder="Road / pincode" value={formData.roadNo} onChange={handleInputChange} required />
                 <input type="text" name="city" placeholder="City" value={formData.city} onChange={handleInputChange} required />
                 <input type="text" name="state" placeholder="State" value={formData.state} onChange={handleInputChange} required />
-                <input type="text" name="pincode" placeholder="Pincode" value={formData.pincode} onChange={handleInputChange} required />
+                
               </div>
 
               <div className={styles.formGroup}>

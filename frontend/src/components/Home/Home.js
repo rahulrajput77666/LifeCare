@@ -218,7 +218,7 @@ function Home() {
                             <i className="fas fa-phone"></i> +91 9644922096
                         </p>
                         <p className={styles.footerText}>
-                            <i className="fas fa-envelope"></i> rahulrajput77666@gmail.com
+                            <i className="fas fa-envelope"></i> lifecare8085@gmail.com
                         </p>
                     </div>
                     <div className={styles.footerColumn}>

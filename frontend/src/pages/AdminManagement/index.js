@@ -559,6 +559,7 @@ return (
                                     <thead>
                                         <tr>
                                             <th>Patient Name</th>
+                                            <th>Address</th>
                                             <th>Tests</th>
                                             <th>Profiles</th>
                                             <th>Date</th>
@@ -571,14 +572,43 @@ return (
                                     </thead>
                                     <tbody>
                                         {(appointments.length > 0 ? appointments : []).map(app => {
-                                            const testNames = (app.tests || []).map(t => typeof t === 'object' ? t.name : '');
-                                            const profileNames = (app.profiles || []).map(p => typeof p === 'object' ? p.name : '');
+                                            // Resolve test/profile names whether the backend returned populated objects or raw IDs
+                                            const testNames = (app.tests || []).map(t => {
+                                                if (!t) return '';
+                                                if (typeof t === 'object') return t.name || '';
+                                                // t is likely an ObjectId string -> try to resolve from fetched individualTests
+                                                const idStr = t.toString ? t.toString() : String(t);
+                                                const found = individualTests.find(i => (i._id && (i._id.toString ? i._id.toString() === idStr : i._id === idStr)));
+                                                return found ? found.name : idStr;
+                                            });
+
+                                            const profileNames = (app.profiles || []).map(p => {
+                                                if (!p) return '';
+                                                if (typeof p === 'object') return p.name || '';
+                                                const idStr = p.toString ? p.toString() : String(p);
+                                                const found = profiles.find(pr => (pr._id && (pr._id.toString ? pr._id.toString() === idStr : pr._id === idStr)));
+                                                return found ? found.name : idStr;
+                                            });
 
                                             return (
                                                 <tr key={app._id}>
                                                     <td>{app.name}</td>
-                                                    <td>{testNames.join(', ') || '-'}</td>
-                                                    <td>{profileNames.join(', ') || '-'}</td>
+                                                    <td>
+                                                        {(() => {
+                                                            const a = app.address || {};
+                                                            const parts = [];
+                                                            if (a.pincode) parts.push(a.pincode);
+                                                            if (a.streetAddress) parts.push(a.streetAddress);
+                                                            if (a.roadNo) parts.push(a.roadNo);
+                                                            if (a.city) parts.push(a.city);
+                                                            if (a.state) parts.push(a.state);
+                                                            
+                                                            const addr = parts.join(', ');
+                                                            return addr || '-';
+                                                        })()}
+                                                    </td>
+                                                    <td>{(testNames.filter(Boolean).join(', ')) || '-'}</td>
+                                                    <td>{(profileNames.filter(Boolean).join(', ')) || '-'}</td>
                                                     <td>{new Date(app.date).toLocaleDateString()}</td>
                                                     <td>
                                                         <select

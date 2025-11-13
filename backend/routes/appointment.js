@@ -74,6 +74,19 @@ router.get('/my-appointments', verifyToken, async (req, res) => {
 router.post('/bookAppointment', verifyToken, async (req, res) => {
     try {
         console.log("Decoded JWT user:", req.user);
+        // Log incoming booking payload for debugging (helps detect missing mobile)
+        console.log('bookAppointment request body snapshot:', {
+            mobile: req.body?.mobile,
+            address: req.body?.address || {
+                streetAddress: req.body?.streetAddress,
+                roadNo: req.body?.roadNo,
+                city: req.body?.city,
+                pincode: req.body?.pincode,
+                state: req.body?.state
+            },
+            tests: req.body?.tests,
+            profiles: req.body?.profiles
+        });
         if (!req.user._id) {
             console.warn("JWT payload missing _id:", req.user);
             return res.status(403).json({ message: "Invalid token: missing user id." });
@@ -84,11 +97,39 @@ router.post('/bookAppointment', verifyToken, async (req, res) => {
             return res.status(404).json({ message: "Authenticated user not found." });
         }
 
-        const newAppointment = new Appointment({
-            ...req.body,
-            user: user._id, // Link the appointment to the logged-in user
-            email: user.email // Use the user's registered email
-        });
+        // Server-side validation: ensure mobile is provided and is exactly 10 digits
+        // Accept mobile via several possible keys for resilience
+        const mobileCandidates = [req.body?.mobile, req.body?.phone, req.body?.contactNumber, (req.body?.address && req.body.address.mobile)];
+        const mobileRaw = mobileCandidates.find(x => x !== undefined && x !== null && String(x).trim() !== '');
+        const mobile = mobileRaw ? String(mobileRaw).trim() : '';
+        const mobileRegex = /^[0-9]{10}$/;
+        if (!mobile || !mobileRegex.test(mobile)) {
+            console.warn('bookAppointment: invalid or missing mobile - candidates:', mobileCandidates);
+            return res.status(400).json({ message: 'Mobile number is required and must be exactly 10 digits.' });
+        }
+
+        // Build appointment object explicitly to ensure required fields are stored
+        const appointmentPayload = {
+            user: user._id,
+            name: req.body.name || `${user.firstName || ''} ${user.lastName || ''}`.trim(),
+            email: user.email,
+            mobile,
+            date: req.body.date ? new Date(req.body.date) : new Date(),
+            tests: Array.isArray(req.body.tests) ? req.body.tests : (req.body.tests ? [req.body.tests] : []),
+            profiles: Array.isArray(req.body.profiles) ? req.body.profiles : (req.body.profiles ? [req.body.profiles] : []),
+            totalPrice: Number(req.body.totalPrice) || 0,
+            dtd: req.body.dtd || req.body.doorToDoor || 'no',
+            address: req.body.address || {
+                streetAddress: req.body.streetAddress || '',
+                roadNo: req.body.roadNo || '',
+                city: req.body.city || '',
+                pincode: req.body.pincode || '',
+                state: req.body.state || ''
+            },
+            isPaymentDone: !!req.body.isPaymentDone
+        };
+
+        const newAppointment = new Appointment(appointmentPayload);
         await newAppointment.save();
         // Return the created appointment so frontend can get its id for payment
         res.status(201).json({ message: "Appointment booked successfully!", appointment: newAppointment });
@@ -148,22 +189,35 @@ router.get('/getAllAppointments', async (req, res) => {
         if (!dbUser) return res.status(404).json({ message: 'User not found' });
         if (!dbUser.isAdmin) return res.status(403).json({ message: 'Forbidden: Admins only' });
 
-        // Fetch appointments without aggressive populate to avoid schema mismatch errors.
-        // We'll try a light population of user field only if present.
-        let appointments = await Appointment.find().lean();
+        // Fetch appointments and populate tests & profiles so admin UI can display names/prices.
+        // We still keep the result as plain objects via .lean()
+        let appointments = await Appointment.find()
+            .populate('tests', 'name price')
+            .populate('profiles', 'name price')
+            .lean();
 
         // Defensive: if appointments include user IDs, try to replace with basic user info.
         for (let i = 0; i < appointments.length; i++) {
             const a = appointments[i];
             try {
-                if (a.user && typeof a.user !== 'object') {
-                    const u = await User.findById(a.user).select('firstName lastName email').lean();
-                    if (u) a.user = u;
+                if (a.user) {
+                    if (typeof a.user !== 'object') {
+                        // include mobile so admin UI can display a phone number
+                        const u = await User.findById(a.user).select('firstName lastName email mobile').lean();
+                        if (u) {
+                            a.user = u;
+                            // If appointment record doesn't have mobile set, prefer user's mobile
+                            if (!a.mobile && u.mobile) a.mobile = u.mobile;
+                        }
+                    } else {
+                        // already populated user object: ensure appointment.mobile falls back to user.mobile
+                        if (!a.mobile && a.user.mobile) a.mobile = a.user.mobile;
+                    }
                 }
-            } catch (innerErr) {
-                // Ignore and keep original value; do not fail entire request.
-            }
-        }
+             } catch (innerErr) {
+                 // Ignore and keep original value; do not fail entire request.
+             }
+         }
 
         return res.status(200).json(appointments || []);
     } catch (err) {
