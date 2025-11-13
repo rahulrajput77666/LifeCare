@@ -2,6 +2,8 @@ import React, { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import styles from "./styles.module.css";
+// Use a configurable API base like other pages. In production set REACT_APP_API_URL in environment.
+const API_BASE = process.env.REACT_APP_API_URL || (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : window.location.origin);
 
 function ExploreTests() {
   // data
@@ -28,8 +30,8 @@ function ExploreTests() {
       try {
         setLoading(true);
         const [profilesRes, testsRes] = await Promise.all([
-          axios.get("http://localhost:5000/api/profiles/"),
-          axios.get("http://localhost:5000/api/tests/"),
+          axios.get(`${API_BASE}/api/profiles/`),
+          axios.get(`${API_BASE}/api/tests/`),
         ]);
         if (cancelled) return;
         setProfiles(profilesRes.data || []);
