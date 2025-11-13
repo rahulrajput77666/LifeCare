@@ -561,7 +561,7 @@ return (
                                             <th>Patient Name</th>
                                             <th>Address</th>
                                             <th>Tests</th>
-                                            <th>Profiles</th>
+                                            <th>Test Profiles</th>
                                             <th>Date</th>
                                             <th>Payment Status</th>
                                             <th>Appointment Status</th>
